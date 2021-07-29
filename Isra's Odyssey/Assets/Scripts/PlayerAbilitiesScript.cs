@@ -46,6 +46,24 @@ public class PlayerAbilitiesScript : MonoBehaviour
     //Dont worry about it
     private int curIndex = 1;
 
+    private ControlLayout controlSystem;
+
+    private void Awake()
+    {
+        controlSystem = new ControlLayout();
+        controlSystem.PlayerAbilities.LightBeam.performed += ctx => Debug.Log("Lightbeam");
+    }
+
+    private void OnEnable()
+    {
+        controlSystem.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controlSystem.Disable();
+    }
+
     private void Start()
     {
         //Getting refs for everything

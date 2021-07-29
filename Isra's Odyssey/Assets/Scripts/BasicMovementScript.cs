@@ -19,6 +19,26 @@ public class BasicMovementScript : MonoBehaviour
     AudioManagerScript AudioRef;
     bool impactSoundPlayed = true;
 
+    private ControlLayout controlSystem;
+    private Vector2 moveVec;
+
+    private void Awake()
+    {
+        controlSystem = new ControlLayout();
+        controlSystem.PlayerControls.Movement.performed += ctx => moveVec = ctx.ReadValue<Vector2>();
+        controlSystem.PlayerControls.Movement.canceled += ctx => moveVec = Vector2.zero;
+    }
+
+    private void OnEnable()
+    {
+        controlSystem.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controlSystem.Disable();
+    }
+
     private void Start()
     {
         AudioRef = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManagerScript>();
@@ -27,19 +47,14 @@ public class BasicMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float HInput;
-        float VInput;
+        float HInput = moveVec.x;
+        float VInput = moveVec.y;
 
         if (constantLook)
         {
             HInput = 0f;
             VInput = 1f;
-        }
-        else 
-        {
-            HInput = Input.GetAxisRaw("Horizontal");
-            VInput = Input.GetAxisRaw("Vertical");
-        }      
+        }     
 
         Vector3 dir = new Vector3(HInput, 0f, VInput).normalized;
         Vector3 cameraDir = Vector3.zero;
