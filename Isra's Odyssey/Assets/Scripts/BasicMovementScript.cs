@@ -21,12 +21,13 @@ public class BasicMovementScript : MonoBehaviour
 
     private ControlLayout controlSystem;
     private Vector2 moveVec;
-
+    private bool jumpInput = false;
     private void Awake()
     {
         controlSystem = new ControlLayout();
         controlSystem.PlayerControls.Movement.performed += ctx => moveVec = ctx.ReadValue<Vector2>();
         controlSystem.PlayerControls.Movement.canceled += ctx => moveVec = Vector2.zero;
+        controlSystem.PlayerControls.Jump.performed += ctx => jumpInput = true;
     }
 
     private void OnEnable()
@@ -59,6 +60,7 @@ public class BasicMovementScript : MonoBehaviour
         Vector3 dir = new Vector3(HInput, 0f, VInput).normalized;
         Vector3 cameraDir = Vector3.zero;
 
+        //Only change direction based on camera if we havent already started moving
         if (dir.magnitude >= 0.05f)
         {
             //Transform our input direction based on the camera's direction
@@ -85,14 +87,17 @@ public class BasicMovementScript : MonoBehaviour
             }
             //If we are on the ground zero our y movement
             ySpeedHolder = 0f;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (jumpInput)
+            {               
                 //If we jump add the jump force
                 ySpeedHolder = playerJumpPower;
 
                 //Audio sound effects
                 AudioRef.playAudio(3);
                 impactSoundPlayed = false;
+
+                //Reset Jump input
+                jumpInput = false;
             }
         }
         //Maintain y velocity from last frame but add gravity every frame to it

@@ -25,6 +25,14 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""16e4eefe-b7ac-4343-a4c3-5c6cccfb073e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +90,17 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a484e46-3720-46de-8b35-158dadb80a02"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -90,9 +109,33 @@ public class @ControlLayout : IInputActionCollection, IDisposable
             ""id"": ""032b689f-042b-4748-9b57-aeaddcdcddda"",
             ""actions"": [
                 {
-                    ""name"": ""LightBeam"",
+                    ""name"": ""CastLightBeam"",
                     ""type"": ""Button"",
                     ""id"": ""5ed9a46b-e62b-42ac-b03f-770ee27290e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Teleport"",
+                    ""type"": ""Button"",
+                    ""id"": ""a507b76d-b970-4b70-84f0-873c99b7d76a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CancelTeleport"",
+                    ""type"": ""Button"",
+                    ""id"": ""e505b8c7-9d61-47d0-acf7-2c0f84bcc20f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LightMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4aae941-197a-49b3-84c5-460faf0b5c34"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -102,11 +145,44 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c09f5c14-48c6-4870-a6a7-23dc8724ee8f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CastLightBeam"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d1ed4c4-2ff6-453b-99b5-353b60cc1a21"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LightBeam"",
+                    ""action"": ""Teleport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65ab73b3-8adb-4a56-b047-a5010434c0c1"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelTeleport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24b284d0-b3ca-4969-9288-c1612b7fd0dc"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LightMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -118,9 +194,13 @@ public class @ControlLayout : IInputActionCollection, IDisposable
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
         // PlayerAbilities
         m_PlayerAbilities = asset.FindActionMap("PlayerAbilities", throwIfNotFound: true);
-        m_PlayerAbilities_LightBeam = m_PlayerAbilities.FindAction("LightBeam", throwIfNotFound: true);
+        m_PlayerAbilities_CastLightBeam = m_PlayerAbilities.FindAction("CastLightBeam", throwIfNotFound: true);
+        m_PlayerAbilities_Teleport = m_PlayerAbilities.FindAction("Teleport", throwIfNotFound: true);
+        m_PlayerAbilities_CancelTeleport = m_PlayerAbilities.FindAction("CancelTeleport", throwIfNotFound: true);
+        m_PlayerAbilities_LightMode = m_PlayerAbilities.FindAction("LightMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -171,11 +251,13 @@ public class @ControlLayout : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_Movement;
+    private readonly InputAction m_PlayerControls_Jump;
     public struct PlayerControlsActions
     {
         private @ControlLayout m_Wrapper;
         public PlayerControlsActions(@ControlLayout wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
+        public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +270,9 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
+                @Jump.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -195,6 +280,9 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -203,12 +291,18 @@ public class @ControlLayout : IInputActionCollection, IDisposable
     // PlayerAbilities
     private readonly InputActionMap m_PlayerAbilities;
     private IPlayerAbilitiesActions m_PlayerAbilitiesActionsCallbackInterface;
-    private readonly InputAction m_PlayerAbilities_LightBeam;
+    private readonly InputAction m_PlayerAbilities_CastLightBeam;
+    private readonly InputAction m_PlayerAbilities_Teleport;
+    private readonly InputAction m_PlayerAbilities_CancelTeleport;
+    private readonly InputAction m_PlayerAbilities_LightMode;
     public struct PlayerAbilitiesActions
     {
         private @ControlLayout m_Wrapper;
         public PlayerAbilitiesActions(@ControlLayout wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LightBeam => m_Wrapper.m_PlayerAbilities_LightBeam;
+        public InputAction @CastLightBeam => m_Wrapper.m_PlayerAbilities_CastLightBeam;
+        public InputAction @Teleport => m_Wrapper.m_PlayerAbilities_Teleport;
+        public InputAction @CancelTeleport => m_Wrapper.m_PlayerAbilities_CancelTeleport;
+        public InputAction @LightMode => m_Wrapper.m_PlayerAbilities_LightMode;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -218,16 +312,34 @@ public class @ControlLayout : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface != null)
             {
-                @LightBeam.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightBeam;
-                @LightBeam.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightBeam;
-                @LightBeam.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightBeam;
+                @CastLightBeam.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
+                @CastLightBeam.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
+                @CastLightBeam.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
+                @Teleport.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
+                @Teleport.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
+                @Teleport.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
+                @CancelTeleport.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
+                @CancelTeleport.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
+                @CancelTeleport.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
+                @LightMode.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
+                @LightMode.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
+                @LightMode.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
             }
             m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @LightBeam.started += instance.OnLightBeam;
-                @LightBeam.performed += instance.OnLightBeam;
-                @LightBeam.canceled += instance.OnLightBeam;
+                @CastLightBeam.started += instance.OnCastLightBeam;
+                @CastLightBeam.performed += instance.OnCastLightBeam;
+                @CastLightBeam.canceled += instance.OnCastLightBeam;
+                @Teleport.started += instance.OnTeleport;
+                @Teleport.performed += instance.OnTeleport;
+                @Teleport.canceled += instance.OnTeleport;
+                @CancelTeleport.started += instance.OnCancelTeleport;
+                @CancelTeleport.performed += instance.OnCancelTeleport;
+                @CancelTeleport.canceled += instance.OnCancelTeleport;
+                @LightMode.started += instance.OnLightMode;
+                @LightMode.performed += instance.OnLightMode;
+                @LightMode.canceled += instance.OnLightMode;
             }
         }
     }
@@ -235,9 +347,13 @@ public class @ControlLayout : IInputActionCollection, IDisposable
     public interface IPlayerControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IPlayerAbilitiesActions
     {
-        void OnLightBeam(InputAction.CallbackContext context);
+        void OnCastLightBeam(InputAction.CallbackContext context);
+        void OnTeleport(InputAction.CallbackContext context);
+        void OnCancelTeleport(InputAction.CallbackContext context);
+        void OnLightMode(InputAction.CallbackContext context);
     }
 }

@@ -12,6 +12,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "16e4eefe-b7ac-4343-a4c3-5c6cccfb073e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -69,6 +77,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2a484e46-3720-46de-8b35-158dadb80a02",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -77,9 +96,33 @@
             "id": "032b689f-042b-4748-9b57-aeaddcdcddda",
             "actions": [
                 {
-                    "name": "LightBeam",
+                    "name": "CastLightBeam",
                     "type": "Button",
                     "id": "5ed9a46b-e62b-42ac-b03f-770ee27290e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Teleport",
+                    "type": "Button",
+                    "id": "a507b76d-b970-4b70-84f0-873c99b7d76a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CancelTeleport",
+                    "type": "Button",
+                    "id": "e505b8c7-9d61-47d0-acf7-2c0f84bcc20f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LightMode",
+                    "type": "Button",
+                    "id": "e4aae941-197a-49b3-84c5-460faf0b5c34",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -89,11 +132,44 @@
                 {
                     "name": "",
                     "id": "c09f5c14-48c6-4870-a6a7-23dc8724ee8f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastLightBeam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d1ed4c4-2ff6-453b-99b5-353b60cc1a21",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LightBeam",
+                    "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65ab73b3-8adb-4a56-b047-a5010434c0c1",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelTeleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24b284d0-b3ca-4969-9288-c1612b7fd0dc",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LightMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -51,7 +51,11 @@ public class PlayerAbilitiesScript : MonoBehaviour
     private void Awake()
     {
         controlSystem = new ControlLayout();
-        controlSystem.PlayerAbilities.LightBeam.performed += ctx => Debug.Log("Lightbeam");
+        controlSystem.PlayerAbilities.CastLightBeam.performed += ctx => CastLightBeam(true);
+        controlSystem.PlayerAbilities.CastLightBeam.canceled += ctx => CastLightBeam(false);
+        controlSystem.PlayerAbilities.Teleport.performed += ctx => HandleTeleportInput();
+        controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
+        controlSystem.PlayerAbilities.LightMode.performed += ctx => ActivateLightMode();
     }
 
     private void OnEnable()
@@ -102,7 +106,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
     void Update()
     {
         //this function is where the player's control inputs are made 
-        PlayerAbilites();
+        //PlayerAbilites();
         //self explanatory
         CheatCodes();
     }
@@ -309,86 +313,96 @@ public class PlayerAbilitiesScript : MonoBehaviour
         //No lights found return false
         return false;
     }
-
-    void PlayerAbilites()
+    //These functions are all called based on events from our input system
+    #region "Light Abilites"
+    void ActivateLightMode() 
     {
-        if (LightMode)
+        if (beaming)
         {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                if (beaming)
-                {
-                    //Beam remains until we press L again
-                    movementRef.setPlayerFrozen(false);
-                    movementRef.setConstantLook(false);
-                    AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
-                    PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-                    Cursor.lockState = CursorLockMode.None;
-                    beaming = false;
-                }
-                else 
-                {
-                    movementRef.setPlayerFrozen(true);
-                    movementRef.setConstantLook(true);
-                    AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
-                    AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    AudioRef.playAudio(6);
-                    beaming = true;
-                }  
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse0)) 
-            {
-                if (beaming) 
-                {
-                    //only turn on beam when we are beaming
-                    LightBeam.SetActive(true);
-                    faceCube.SetActive(false);
-                    
-                    tempLightBeamAudioRef = AudioRef.referencePlayAudio(4);
-                    Debug.Log("on");
-                }
-            }
-            if (Input.GetKeyUp(KeyCode.Mouse0)) 
-            {
-                //no need for a comparison here if we arent beaming we should turn this off anyway
-                LightBeam.SetActive(false);
-                faceCube.SetActive(true);
-               
-                Destroy(tempLightBeamAudioRef);
-                Debug.Log("off");
-            }
+            //Beam remains until we press L again
+            movementRef.setPlayerFrozen(false);
+            movementRef.setConstantLook(false);
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
+            PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            Cursor.lockState = CursorLockMode.None;
+            beaming = false;
         }
         else
-        {//Darkness! >:D
-            if (Input.GetKeyDown(KeyCode.E))
+        {
+            movementRef.setPlayerFrozen(true);
+            movementRef.setConstantLook(true);
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
+            AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            Cursor.lockState = CursorLockMode.Locked;
+            AudioRef.playAudio(6);
+            beaming = true;
+        }
+    }
+
+    //State determines if we are turning the ability off or on
+    void CastLightBeam(bool state) 
+    {
+        if (state)
+        {
+            if (beaming)
             {
-                if (!teleportMarkerActive)
-                {
-                    teleportMarkerActive = true;
-                    indactorRef.SetActive(true);
-                    movementRef.setPlayerFrozen(true);
-                }
-                else 
-                {
-                    executeTeleport = true;
-                    indactorRef.SetActive(false);
-                    movementRef.setPlayerFrozen(false);
-                    movementRef.resetYForce();
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Q)) 
-            {
-                if (teleportMarkerActive) 
-                {
-                    teleportMarkerActive = false;
-                    indactorRef.SetActive(false);
-                    movementRef.setPlayerFrozen(false);
-                }
+                //only turn on beam when we are beaming
+                LightBeam.SetActive(true);
+                faceCube.SetActive(false);
+
+                tempLightBeamAudioRef = AudioRef.referencePlayAudio(4);
+                Debug.Log("on");
             }
         }
+        else 
+        {
+            //no need for a comparison here if we arent beaming we should turn this off anyway
+            LightBeam.SetActive(false);
+            faceCube.SetActive(true);
 
+            Destroy(tempLightBeamAudioRef);
+            Debug.Log("off");
+        }      
     }
+    #endregion
+    #region "Darkness Abilities"
+    void HandleTeleportInput() 
+    {
+        if (!LightMode) 
+        {
+            //Activate teleport marker
+            if (!teleportMarkerActive)
+            {
+                teleportMarkerActive = true;
+                indactorRef.SetActive(true);
+                movementRef.setPlayerFrozen(true);
+            }
+            else
+            {
+                //Actually teleport
+                executeTeleport = true;
+                indactorRef.SetActive(false);
+                movementRef.setPlayerFrozen(false);
+                movementRef.resetYForce();
+            }
+        }     
+    }
+
+    void CancelTeleportAbility() 
+    {
+        if (!LightMode) 
+        {
+            //Cancel teleport
+            if (teleportMarkerActive)
+            {
+                teleportMarkerActive = false;
+                indactorRef.SetActive(false);
+                movementRef.setPlayerFrozen(false);
+            }
+        }     
+    }
+    #endregion
+    //Handle light beam interactions
     void lightBeamAbility() 
     {
         //if the light beam is active
@@ -420,6 +434,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         }
     }
 
+    //Teleport function
     void TeleportAbiltiy()
     {
         RaycastHit collision;
@@ -439,6 +454,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         executeTeleport = false;
     }
 
+    //Update teleport marker location whenever we move the camera
     void TeleportMarkerUpdate()
     {
         RaycastHit collision;
