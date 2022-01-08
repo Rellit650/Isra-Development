@@ -17,7 +17,7 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: 11
-      y: -279
+      y: -280
       width: 1001
       height: 1768
     contents:
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_ImportDependencies: []
   m_GraphVersion: 6
   m_ResourceVersion: 1
-  m_saved: 0
+  m_saved: 1
   m_SubgraphDependencies: []
   m_CategoryPath: 
 --- !u!2058629511 &8926484042661614527
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -1960,7 +1960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -2982,7 +2982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -4352,7 +4352,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614727}
   m_ExposedName: New Color
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 1
   m_Category: 
   m_Min:
     m_Type:
@@ -4576,7 +4576,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614733}
   m_ExposedName: FlameRate
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 2
   m_Category: 
   m_Min:
     m_Type:
@@ -4664,7 +4664,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614735}
   m_ExposedName: FlameVelocity
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 3
   m_Category: 
   m_Min:
     m_Type:
@@ -4856,7 +4856,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614740}
   m_ExposedName: FlameLifeTime
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 4
   m_Category: 
   m_Min:
     m_Type:
@@ -4936,7 +4936,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614742}
   m_ExposedName: FlameSize
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 5
   m_Category: 
   m_Min:
     m_Type:
@@ -5008,7 +5008,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 152, y: 676}
+  m_UIPosition: {x: 162, y: 664}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
