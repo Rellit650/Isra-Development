@@ -30,8 +30,8 @@ public class PlayerAbilitiesScript : MonoBehaviour
     bool teleportMarkerActive = false;
     bool executeTeleport = false;
     GameObject closestLight;
-    GameObject AimingCamera;
-    GameObject PlayerCamera;
+    [SerializeField]GameObject AimingCamera;
+    [SerializeField]GameObject PlayerCamera;
 
     RaycastHit hit;
     int TestMask = 1 << 8;
@@ -56,6 +56,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         controlSystem.PlayerAbilities.Teleport.performed += ctx => HandleTeleportInput();
         controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
         controlSystem.PlayerAbilities.LightMode.performed += ctx => ActivateLightMode();
+        controlSystem.PlayerAbilities.PushPull.performed += ctx => PushPullMode();
     }
 
     private void OnEnable()
@@ -111,7 +112,12 @@ public class PlayerAbilitiesScript : MonoBehaviour
         CheatCodes();
     }
 
-    void CheatCodes() 
+    private void PushPullMode() 
+    {
+        
+    }
+
+    private void CheatCodes() 
     {
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
@@ -237,7 +243,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
             }
         }
         //now we want to handle if we are in light mode 
-        if (LightMode)
+        else
         {
             //Debug purposes only ignore this
             Debug.DrawRay(transform.position, closestLight.transform.position - transform.position);
@@ -322,21 +328,24 @@ public class PlayerAbilitiesScript : MonoBehaviour
             //Beam remains until we press L again
             movementRef.setPlayerFrozen(false);
             movementRef.setConstantLook(false);
-            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
-            PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
             Cursor.lockState = CursorLockMode.None;
             beaming = false;
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
+            PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            
         }
         else
         {
             movementRef.setPlayerFrozen(true);
             movementRef.setConstantLook(true);
-            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
-            AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
             Cursor.lockState = CursorLockMode.Locked;
             AudioRef.playAudio(6);
             beaming = true;
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
+            AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            
         }
+        Debug.Log(beaming);
     }
 
     //State determines if we are turning the ability off or on

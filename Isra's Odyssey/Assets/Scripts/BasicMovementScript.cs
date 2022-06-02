@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MovementType 
+{
+    Regular,
+    PushPull
+}
+
 public class BasicMovementScript : MonoBehaviour
 {
+    public MovementType movementType;
+
     public CharacterController playerController;
 
     public float playerSpeed;
     public float playerJumpPower;
+
+    private float speedModifier = 1f; 
 
     [HideInInspector]
     public bool constantLook = false;
@@ -48,6 +58,42 @@ public class BasicMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (movementType) 
+        {
+            case MovementType.Regular:
+                RegularMovement();
+                break;
+            case MovementType.PushPull:
+                PushPullMovement();
+                break;
+        }
+
+    }
+
+    private void PushPullMovement() 
+    {
+        float HInput = moveVec.x;
+        float VInput = moveVec.y;
+
+        Vector3 dir = new Vector3(HInput, 0f, VInput).normalized;
+        Vector3 cameraDir = Vector3.zero;
+
+        //Transform our input direction based on the camera's direction
+        cameraDir = Camera.main.transform.TransformDirection(dir);
+
+        //We dont want to deal with y movement yet lets just handle our horizontal and vertical for now
+        cameraDir.y = 0f;
+
+
+        Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
+
+
+        //Move the player based on the force we have calculated
+        playerController.Move();
+    }
+
+    private void RegularMovement() 
+    {
         float HInput = moveVec.x;
         float VInput = moveVec.y;
 
@@ -55,7 +101,7 @@ public class BasicMovementScript : MonoBehaviour
         {
             HInput = 0f;
             VInput = 1f;
-        }     
+        }
 
         Vector3 dir = new Vector3(HInput, 0f, VInput).normalized;
         Vector3 cameraDir = Vector3.zero;
@@ -79,7 +125,7 @@ public class BasicMovementScript : MonoBehaviour
         //Jump controls
         if (playerController.isGrounded)
         {
-            if (!impactSoundPlayed) 
+            if (!impactSoundPlayed)
             {
                 //Audio sound effect
                 AudioRef.playAudio(2);
@@ -88,7 +134,7 @@ public class BasicMovementScript : MonoBehaviour
             //If we are on the ground zero our y movement
             ySpeedHolder = 0f;
             if (jumpInput)
-            {               
+            {
                 //If we jump add the jump force
                 ySpeedHolder = playerJumpPower;
 
@@ -107,8 +153,26 @@ public class BasicMovementScript : MonoBehaviour
         cameraDir.y = ySpeedHolder;
 
         //Move the player based on the force we have calculated
-        playerController.Move(cameraDir * playerSpeed * Time.deltaTime * playerFrozen);
+        playerController.Move(playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir);
+    }
 
+    //For things that cant be done with a timer
+    public void AdjustSpeedModifier(float change)
+    {
+        speedModifier += change;
+    }
+
+    //Overload to have self contained timer
+    public void AdjustSpeedModifier(float change, float duration) 
+    {
+        speedModifier += change;
+        StartCoroutine(SpeedModTimer(change, duration));
+    }
+
+    IEnumerator SpeedModTimer(float change, float duration) 
+    {
+        yield return new WaitForSeconds(duration);
+        speedModifier -= change;
     }
 
     //Freezes the player by zeroing out the force we add to them see the above line of code

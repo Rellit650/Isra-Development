@@ -12,6 +12,7 @@ TagManager:
   - AudioManager
   - BurnablePlant
   - 3rdPersonCamera
+  - TestTag
   layers:
   - Default
   - TransparentFX

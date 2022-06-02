@@ -181,6 +181,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Push/Pull",
+                    "type": "Button",
+                    "id": "0bc5117b-1f84-42b6-b5bd-58c8531b3130",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -225,6 +233,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LightMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7315dfd6-757e-493d-9a8f-0983f51a2c80",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Push/Pull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
