@@ -84,12 +84,10 @@ public class BasicMovementScript : MonoBehaviour
         //We dont want to deal with y movement yet lets just handle our horizontal and vertical for now
         cameraDir.y = 0f;
 
-
         Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
 
-
         //Move the player based on the force we have calculated
-        playerController.Move();
+        playerController.Move(UnadjustedSpeed);
     }
 
     private void RegularMovement() 
