@@ -13,6 +13,7 @@ TagManager:
   - BurnablePlant
   - 3rdPersonCamera
   - TestTag
+  - PushPull
   layers:
   - Default
   - TransparentFX
