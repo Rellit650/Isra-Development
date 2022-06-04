@@ -11,36 +11,38 @@ public class PlayerAbilitiesScript : MonoBehaviour
 {
     public GameObject[] cheatPlatforms;
     public GameObject[] Lights;
-    public float detectionRadius;
-    public Material darkMat;
-    public Material lightMat;
     public GameObject swordRef;
-
     public GameObject LightBeam;
-    public float beamDuration;
-
-    public float teleportDistance;
     public GameObject IndicatorPrefab;
-
     public GameObject faceCube;
 
-    bool LightMode = false;
+    public float detectionRadius;
+    public float beamDuration;
+    public float teleportDistance;
 
+    public Material darkMat;
+    public Material lightMat;
+
+
+    bool LightMode = false;
     bool beaming = false;
     bool teleportMarkerActive = false;
     bool executeTeleport = false;
+    bool pushPullActive = false;
+
+    GameObject PushPullRef;
     GameObject closestLight;
+    GameObject tempLightBeamAudioRef;
+    GameObject indactorRef;
     [SerializeField]GameObject AimingCamera;
     [SerializeField]GameObject PlayerCamera;
-
+    
     RaycastHit hit;
     int TestMask = 1 << 8;
     int puzzleMask = 1 << 10;
 
-    BasicMovementScript movementRef;
-    GameObject indactorRef;
-    AudioManagerScript AudioRef;
-    GameObject tempLightBeamAudioRef;
+    BasicMovementScript movementRef; 
+    AudioManagerScript AudioRef;   
     RespawnAreaScript respawnRef;
 
     //Dont worry about it
@@ -112,9 +114,33 @@ public class PlayerAbilitiesScript : MonoBehaviour
         CheatCodes();
     }
 
+    public void SetPushPullRef(GameObject obj) 
+    {
+        PushPullRef = obj;
+        Debug.Log("Set Ref to: " + obj);
+    }
+
     private void PushPullMode() 
     {
-        
+        if (pushPullActive)
+        {
+            pushPullActive = false;
+            movementRef.SetMovementType(MovementType.Regular);
+            PushPullRef.transform.SetParent(null);
+        }
+        else 
+        {
+            pushPullActive = true;
+            movementRef.SetCharacterController(false);
+            movementRef.SetMovementType(MovementType.PushPull);
+
+            transform.position = PushPullRef.transform.GetChild(0).position;
+            transform.LookAt(PushPullRef.transform);
+
+            PushPullRef.transform.SetParent(transform);
+
+            movementRef.SetCharacterController(true);
+        }     
     }
 
     private void CheatCodes() 

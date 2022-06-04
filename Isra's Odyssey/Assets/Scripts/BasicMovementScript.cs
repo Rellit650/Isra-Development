@@ -16,11 +16,12 @@ public class BasicMovementScript : MonoBehaviour
 
     public float playerSpeed;
     public float playerJumpPower;
-
     private float speedModifier = 1f; 
 
     [HideInInspector]
     public bool constantLook = false;
+
+    GameObject PushPullRef;
 
     float ySpeedHolder;
 
@@ -52,6 +53,7 @@ public class BasicMovementScript : MonoBehaviour
 
     private void Start()
     {
+        movementType = MovementType.Regular;
         AudioRef = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManagerScript>();
     }
 
@@ -70,21 +72,16 @@ public class BasicMovementScript : MonoBehaviour
 
     }
 
+    #region Movement Functions
     private void PushPullMovement() 
     {
-        float HInput = moveVec.x;
+        //float HInput = moveVec.x;
         float VInput = moveVec.y;
 
-        Vector3 dir = new Vector3(HInput, 0f, VInput).normalized;
-        Vector3 cameraDir = Vector3.zero;
+        //determine direction for cart
+        Vector3 newDir =  VInput * -PushPullRef.transform.right;
 
-        //Transform our input direction based on the camera's direction
-        cameraDir = Camera.main.transform.TransformDirection(dir);
-
-        //We dont want to deal with y movement yet lets just handle our horizontal and vertical for now
-        cameraDir.y = 0f;
-
-        Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
+        Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * newDir;
 
         //Move the player based on the force we have calculated
         playerController.Move(UnadjustedSpeed);
@@ -152,6 +149,22 @@ public class BasicMovementScript : MonoBehaviour
 
         //Move the player based on the force we have calculated
         playerController.Move(playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir);
+    }
+    #endregion Movement Functions
+
+    public void SetMovementType(MovementType type) 
+    {
+        movementType = type;
+    }
+
+    public void SetCharacterController(bool active) 
+    {
+        playerController.enabled = active;
+    }
+
+    public void SetPushPullRef(GameObject obj) 
+    {
+        PushPullRef = obj;
     }
 
     //For things that cant be done with a timer
