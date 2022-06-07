@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class PushPullFunctionality : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.GetComponent<PlayerAbilitiesScript>()) 
+        {
+            other.GetComponent<PlayerAbilitiesScript>().SetPushPullRef(gameObject);
+            other.GetComponent<BasicMovementScript>().SetPushPullRef(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.GetComponent<PlayerAbilitiesScript>())
+        {
+            other.GetComponent<PlayerAbilitiesScript>().SetPushPullRef(null);
+            other.GetComponent<BasicMovementScript>().SetPushPullRef(null);
+        }
     }
 }
