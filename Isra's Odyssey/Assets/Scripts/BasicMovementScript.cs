@@ -79,7 +79,7 @@ public class BasicMovementScript : MonoBehaviour
         float VInput = moveVec.y;
 
         //determine direction for cart
-        Vector3 newDir =  VInput * -PushPullRef.transform.right;
+        Vector3 newDir = VInput * transform.forward;//-PushPullRef.transform.right;
 
         Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * newDir;
 

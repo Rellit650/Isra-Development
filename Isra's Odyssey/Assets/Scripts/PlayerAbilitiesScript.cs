@@ -134,7 +134,14 @@ public class PlayerAbilitiesScript : MonoBehaviour
             movementRef.SetCharacterController(false);
             movementRef.SetMovementType(MovementType.PushPull);
 
-            transform.position = PushPullRef.transform.GetChild(0).position;
+            for(int i = 0; i < PushPullRef.transform.childCount; i++) 
+            {
+                if (PushPullRef.transform.GetChild(i).CompareTag("PushPull")) 
+                {
+                    transform.position = PushPullRef.transform.GetChild(i).position;
+                    break;
+                }
+            }
             transform.LookAt(PushPullRef.transform);
 
             PushPullRef.transform.SetParent(transform);
