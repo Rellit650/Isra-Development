@@ -132,8 +132,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - BillboardSize: 0.82
-    - Inflate: 0.5
+    - BillboardSize: 0
+    - Inflate: 0
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
