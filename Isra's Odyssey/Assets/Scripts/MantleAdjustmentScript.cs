@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class MantleAdjustmentScript : MonoBehaviour
 {
+    [Range(0,1)]
     public float mantleColliderSize;
     private float boxColliderSize;
 
-    private Renderer mantleRenderer;
+    //private Renderer mantleRenderer;
 
     private BoxCollider parentCollider;
     private BoxCollider mantleCollider;
@@ -17,7 +18,7 @@ public class MantleAdjustmentScript : MonoBehaviour
         mantleCollider = GetComponent<BoxCollider>();
         parentCollider = transform.parent.GetComponent<BoxCollider>();
 
-        mantleRenderer = transform.parent.GetComponent<Renderer>();
+        //mantleRenderer = transform.parent.GetComponent<Renderer>();
 
         Quaternion storedRotation = transform.parent.transform.rotation;
         transform.parent.rotation = Quaternion.identity;
