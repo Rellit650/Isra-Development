@@ -11,36 +11,38 @@ public class PlayerAbilitiesScript : MonoBehaviour
 {
     public GameObject[] cheatPlatforms;
     public GameObject[] Lights;
-    public float detectionRadius;
-    public Material darkMat;
-    public Material lightMat;
     public GameObject swordRef;
-
     public GameObject LightBeam;
-    public float beamDuration;
-
-    public float teleportDistance;
     public GameObject IndicatorPrefab;
-
     public GameObject faceCube;
 
-    bool LightMode = false;
+    public float detectionRadius;
+    public float beamDuration;
+    public float teleportDistance;
 
+    public Material darkMat;
+    public Material lightMat;
+
+
+    bool LightMode = false;
     bool beaming = false;
     bool teleportMarkerActive = false;
     bool executeTeleport = false;
-    GameObject closestLight;
-    GameObject AimingCamera;
-    GameObject PlayerCamera;
+    bool pushPullActive = false;
 
+    GameObject PushPullRef;
+    GameObject closestLight;
+    GameObject tempLightBeamAudioRef;
+    GameObject indactorRef;
+    [SerializeField]GameObject AimingCamera;
+    [SerializeField]GameObject PlayerCamera;
+    
     RaycastHit hit;
     int TestMask = 1 << 8;
     int puzzleMask = 1 << 10;
 
-    BasicMovementScript movementRef;
-    GameObject indactorRef;
-    AudioManagerScript AudioRef;
-    GameObject tempLightBeamAudioRef;
+    BasicMovementScript movementRef; 
+    AudioManagerScript AudioRef;   
     RespawnAreaScript respawnRef;
 
     //Dont worry about it
@@ -56,6 +58,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         controlSystem.PlayerAbilities.Teleport.performed += ctx => HandleTeleportInput();
         controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
         controlSystem.PlayerAbilities.LightMode.performed += ctx => ActivateLightMode();
+        controlSystem.PlayerAbilities.PushPull.performed += ctx => PushPullMode();
     }
 
     private void OnEnable()
@@ -111,7 +114,43 @@ public class PlayerAbilitiesScript : MonoBehaviour
         CheatCodes();
     }
 
-    void CheatCodes() 
+    public void SetPushPullRef(GameObject obj) 
+    {
+        PushPullRef = obj;
+        Debug.Log("Set Ref to: " + obj);
+    }
+
+    private void PushPullMode() 
+    {
+        if (pushPullActive)
+        {
+            pushPullActive = false;
+            movementRef.SetMovementType(MovementType.Regular);
+            PushPullRef.transform.SetParent(null);
+        }
+        else 
+        {
+            pushPullActive = true;
+            movementRef.SetCharacterController(false);
+            movementRef.SetMovementType(MovementType.PushPull);
+
+            for(int i = 0; i < PushPullRef.transform.childCount; i++) 
+            {
+                if (PushPullRef.transform.GetChild(i).CompareTag("PushPull")) 
+                {
+                    transform.position = PushPullRef.transform.GetChild(i).position;
+                    break;
+                }
+            }
+            transform.LookAt(PushPullRef.transform);
+
+            PushPullRef.transform.SetParent(transform);
+
+            movementRef.SetCharacterController(true);
+        }     
+    }
+
+    private void CheatCodes() 
     {
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
@@ -237,7 +276,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
             }
         }
         //now we want to handle if we are in light mode 
-        if (LightMode)
+        else
         {
             //Debug purposes only ignore this
             Debug.DrawRay(transform.position, closestLight.transform.position - transform.position);
@@ -322,21 +361,24 @@ public class PlayerAbilitiesScript : MonoBehaviour
             //Beam remains until we press L again
             movementRef.setPlayerFrozen(false);
             movementRef.setConstantLook(false);
-            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
-            PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
             Cursor.lockState = CursorLockMode.None;
             beaming = false;
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 9;
+            PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            
         }
         else
         {
             movementRef.setPlayerFrozen(true);
             movementRef.setConstantLook(true);
-            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
-            AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
             Cursor.lockState = CursorLockMode.Locked;
             AudioRef.playAudio(6);
             beaming = true;
+            AimingCamera.GetComponent<CinemachineFreeLook>().Priority = 11;
+            AimingCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = PlayerCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+            
         }
+        Debug.Log(beaming);
     }
 
     //State determines if we are turning the ability off or on

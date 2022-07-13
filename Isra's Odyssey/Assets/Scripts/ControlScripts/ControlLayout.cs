@@ -194,6 +194,14 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Push/Pull"",
+                    ""type"": ""Button"",
+                    ""id"": ""0bc5117b-1f84-42b6-b5bd-58c8531b3130"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -240,6 +248,17 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                     ""action"": ""LightMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7315dfd6-757e-493d-9a8f-0983f51a2c80"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Push/Pull"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -256,6 +275,7 @@ public class @ControlLayout : IInputActionCollection, IDisposable
         m_PlayerAbilities_Teleport = m_PlayerAbilities.FindAction("Teleport", throwIfNotFound: true);
         m_PlayerAbilities_CancelTeleport = m_PlayerAbilities.FindAction("CancelTeleport", throwIfNotFound: true);
         m_PlayerAbilities_LightMode = m_PlayerAbilities.FindAction("LightMode", throwIfNotFound: true);
+        m_PlayerAbilities_PushPull = m_PlayerAbilities.FindAction("Push/Pull", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -350,6 +370,7 @@ public class @ControlLayout : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerAbilities_Teleport;
     private readonly InputAction m_PlayerAbilities_CancelTeleport;
     private readonly InputAction m_PlayerAbilities_LightMode;
+    private readonly InputAction m_PlayerAbilities_PushPull;
     public struct PlayerAbilitiesActions
     {
         private @ControlLayout m_Wrapper;
@@ -358,6 +379,7 @@ public class @ControlLayout : IInputActionCollection, IDisposable
         public InputAction @Teleport => m_Wrapper.m_PlayerAbilities_Teleport;
         public InputAction @CancelTeleport => m_Wrapper.m_PlayerAbilities_CancelTeleport;
         public InputAction @LightMode => m_Wrapper.m_PlayerAbilities_LightMode;
+        public InputAction @PushPull => m_Wrapper.m_PlayerAbilities_PushPull;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -379,6 +401,9 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                 @LightMode.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
                 @LightMode.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
                 @LightMode.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
+                @PushPull.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
+                @PushPull.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
+                @PushPull.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
             }
             m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface = instance;
             if (instance != null)
@@ -395,6 +420,9 @@ public class @ControlLayout : IInputActionCollection, IDisposable
                 @LightMode.started += instance.OnLightMode;
                 @LightMode.performed += instance.OnLightMode;
                 @LightMode.canceled += instance.OnLightMode;
+                @PushPull.started += instance.OnPushPull;
+                @PushPull.performed += instance.OnPushPull;
+                @PushPull.canceled += instance.OnPushPull;
             }
         }
     }
@@ -410,5 +438,6 @@ public class @ControlLayout : IInputActionCollection, IDisposable
         void OnTeleport(InputAction.CallbackContext context);
         void OnCancelTeleport(InputAction.CallbackContext context);
         void OnLightMode(InputAction.CallbackContext context);
+        void OnPushPull(InputAction.CallbackContext context);
     }
 }

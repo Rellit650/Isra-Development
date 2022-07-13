@@ -12,6 +12,9 @@ TagManager:
   - AudioManager
   - BurnablePlant
   - 3rdPersonCamera
+  - TestTag
+  - PushPull
+  - Mantle
   layers:
   - Default
   - TransparentFX
