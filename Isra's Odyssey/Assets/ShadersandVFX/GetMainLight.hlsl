@@ -1,4 +1,5 @@
-//#include "com.unity.render-pipelines.high-definition/Runtime/Lighting/Shadow/HDShadowAlgorithms.hlsl"
+//#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Shadow/HDShadowAlgorithms.hlsl"
+/*
 void MainLight_half(float3 WorldPos, out half3 Direction, out half3 Color, out half Attenuation)
 {
 #if SHADERGRAPH_PREVIEW
@@ -18,4 +19,6 @@ void MainLight_half(float3 WorldPos, out half3 Direction, out half3 Color, out h
     Attenuation = mainLight.distanceAttenuation * mainLight.shadowAttenuation;
 #endif
 }
+*/
+
 //EvalShadow_WorldToShadow(WorldPos);
