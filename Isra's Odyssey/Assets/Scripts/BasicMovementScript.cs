@@ -5,34 +5,38 @@ using UnityEngine;
 public enum MovementType 
 {
     Regular,
-    PushPull
+    PushPull,
+    Mantle
 }
 
 public class BasicMovementScript : MonoBehaviour
 {
     public MovementType movementType;
-
     public CharacterController playerController;
 
     public float playerSpeed;
     public float playerJumpPower;
-    private float speedModifier = 1f; 
-
+    public float mantleTime;
     [HideInInspector]
     public bool constantLook = false;
 
+    AudioManagerScript AudioRef;
+    ControlLayout controlSystem;
     GameObject PushPullRef;
 
+    float speedModifier = 1f;
     float ySpeedHolder;
-
     float playerFrozen = 1f;
-
-    AudioManagerScript AudioRef;
+    float mantleTimer = 0f;
+  
     bool impactSoundPlayed = true;
+    bool jumpInput = false;
 
-    private ControlLayout controlSystem;
-    private Vector2 moveVec;
-    private bool jumpInput = false;
+    Vector2 moveVec;
+    Vector3 initialMantlePos;
+    Vector3 pointB;
+    Vector3 pointC;
+    
     private void Awake()
     {
         controlSystem = new ControlLayout();
@@ -68,11 +72,36 @@ public class BasicMovementScript : MonoBehaviour
             case MovementType.PushPull:
                 PushPullMovement();
                 break;
+            case MovementType.Mantle:
+                MantleMovement();
+                break;
         }
-
     }
 
     #region Movement Functions
+
+    private void MantleMovement() 
+    {
+        //Add to timer
+        mantleTimer += Time.deltaTime;
+
+        //Calculate our lerp factor
+        float interFactor = mantleTimer / mantleTime;
+
+        //apply 3 point lerp
+        gameObject.transform.position = Vector3.Lerp(Vector3.Lerp(initialMantlePos, pointC, interFactor), Vector3.Lerp(pointC, pointB, interFactor), interFactor);
+
+        //Determine if movement is completed or not
+        if (mantleTimer >= mantleTime)
+        {
+            //reset variables and controls
+            SetMovementType(MovementType.Regular);
+            SetCharacterController(true);
+            mantleTimer = 0f;
+            ySpeedHolder = 0f;
+        }
+    }
+
     private void PushPullMovement() 
     {
         //float HInput = moveVec.x;
@@ -152,9 +181,26 @@ public class BasicMovementScript : MonoBehaviour
     }
     #endregion Movement Functions
 
-    public void SetMovementType(MovementType type) 
+    public void SetMovementType(MovementType type)
     {
         movementType = type;
+        if (type == MovementType.Mantle)
+        {
+            SetCharacterController(false);
+        }
+    }
+
+    public void BeginMantle(Vector3 closestPoint, float objectHeight)
+    {
+        float heightDif = objectHeight - closestPoint.y;
+
+        initialMantlePos = gameObject.transform.position;
+
+        pointB = closestPoint;
+        pointB.y += playerController.height * 0.5f + heightDif;
+        pointC = new Vector3(initialMantlePos.x, pointB.y, initialMantlePos.z);
+
+        SetMovementType(MovementType.Mantle);
     }
 
     public void SetCharacterController(bool active) 
