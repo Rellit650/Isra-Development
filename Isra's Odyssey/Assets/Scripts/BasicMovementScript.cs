@@ -14,9 +14,11 @@ public class BasicMovementScript : MonoBehaviour
     public MovementType movementType;
     public CharacterController playerController;
 
-    public float playerSpeed;
+    public float playerAcceleration;
+    public float maxPlayerSpeed;
     public float playerJumpPower;
     public float mantleTime;
+    public float gravityMultiplier;
     [HideInInspector]
     public bool constantLook = false;
 
@@ -36,6 +38,7 @@ public class BasicMovementScript : MonoBehaviour
     Vector3 initialMantlePos;
     Vector3 pointB;
     Vector3 pointC;
+    Vector3 storedVelocity = Vector3.zero;
     
     private void Awake()
     {
@@ -62,8 +65,8 @@ public class BasicMovementScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void FixedUpdate()
+    { 
         switch (movementType) 
         {
             case MovementType.Regular:
@@ -110,7 +113,7 @@ public class BasicMovementScript : MonoBehaviour
         //determine direction for cart
         Vector3 newDir = VInput * transform.forward;//-PushPullRef.transform.right;
 
-        Vector3 UnadjustedSpeed = playerSpeed * speedModifier * Time.deltaTime * playerFrozen * newDir;
+        Vector3 UnadjustedSpeed = playerAcceleration * speedModifier * Time.deltaTime * playerFrozen * newDir;
 
         //Move the player based on the force we have calculated
         playerController.Move(UnadjustedSpeed);
@@ -143,7 +146,11 @@ public class BasicMovementScript : MonoBehaviour
             float rotAngle = Mathf.Atan2(cameraDir.x, cameraDir.z) * Mathf.Rad2Deg;
 
             //rotate our player based on this angle
-            gameObject.transform.rotation = Quaternion.Euler(0f, rotAngle, 0f);
+            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, rotAngle, 0f), 0.5f);
+        }
+        else 
+        {
+            storedVelocity = Vector3.zero;
         }
 
         //Jump controls
@@ -171,15 +178,50 @@ public class BasicMovementScript : MonoBehaviour
             }
         }
         //Maintain y velocity from last frame but add gravity every frame to it
-        ySpeedHolder += Physics.gravity.y * Time.deltaTime;
+        ySpeedHolder += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
 
         //since camera dir is reset every frame we make it equal to our velocity
-        cameraDir.y = ySpeedHolder;
+        //cameraDir.y = ySpeedHolder;
 
-        //Move the player based on the force we have calculated
-        playerController.Move(playerSpeed * speedModifier * Time.deltaTime * playerFrozen * cameraDir);
+        Vector3 newForce = playerAcceleration * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
+
+        //We want our magn and direction calculations to not include our y
+        storedVelocity.y = 0f;
+
+        //Determine direction of new velocity   
+        if (Vector3.Dot(storedVelocity.normalized, newForce.normalized) < 0.25f)
+        {
+            //Overwrite velocity as its in the opposite direction (this is my attempt to not have slidding feeling)
+            Debug.Log("Overriding");
+            storedVelocity = newForce;
+        }
+        else 
+        {
+            //Apply acceleration
+            Debug.Log("Adding");
+            storedVelocity += newForce;
+        }   
+
+        //Cap out velocity
+        if (storedVelocity.magnitude > maxPlayerSpeed) 
+        {
+            storedVelocity = storedVelocity.normalized * maxPlayerSpeed;
+        }
+
+        storedVelocity.y = ySpeedHolder;
+        //apply velocity to the player
+        playerController.Move(storedVelocity);
     }
     #endregion Movement Functions
+
+    private Vector3 Vector3Multiply(Vector3 lhs, Vector3 rhs) 
+    {
+        Vector3 newVec = Vector3.zero;
+        newVec.x = lhs.x * rhs.x;
+        newVec.y = lhs.y * rhs.y;
+        newVec.z = lhs.z * rhs.z;
+        return newVec;
+    }
 
     public void SetMovementType(MovementType type)
     {

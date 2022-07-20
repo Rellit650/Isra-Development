@@ -323,9 +323,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementType: 0
   playerController: {fileID: 8940752147641539427}
-  playerSpeed: 10
-  playerJumpPower: 3
+  playerAcceleration: 1
+  maxPlayerSpeed: 0.2
+  playerJumpPower: 1
   mantleTime: 0.75
+  gravityMultiplier: 0.35
   constantLook: 0
 --- !u!114 &3821373154333114535
 MonoBehaviour:
