@@ -1,27 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum MovementType 
 {
     Regular,
     PushPull,
-    Mantle
+    Mantle,
+    Slide
 }
 
 public class BasicMovementScript : MonoBehaviour
 {
+    #region Global Variables
     public MovementType movementType;
     public CharacterController playerController;
 
     public float playerAcceleration;
-    public float maxPlayerSpeed;
+    private float internalAccelerationFactor;
+    private float maxPlayerSpeed;
+    public float maxPlayerSpeedNormal;
+    public float maxPlayerSpeedSprinting;
+    public float maxPlayerSpeedSlide;
+    public float staminaDecreaseRate;
+    public float staminaIncreaseRate;
+    public float staminaRecoveryCooldown;
+    private float staminaCDTimer = 0f;
     public float playerJumpPower;
     public float mantleTime;
+    public float slideTime;
     public float gravityMultiplier;
     [HideInInspector]
     public bool constantLook = false;
 
+    [SerializeField] private Image StaminaBar;
     AudioManagerScript AudioRef;
     ControlLayout controlSystem;
     GameObject PushPullRef;
@@ -30,22 +43,33 @@ public class BasicMovementScript : MonoBehaviour
     float ySpeedHolder;
     float playerFrozen = 1f;
     float mantleTimer = 0f;
+    float slideTimer = 0f;
+    float storedPCHeight = 4.18f;
   
     bool impactSoundPlayed = true;
     bool jumpInput = false;
+    bool sprinting = false;
+    bool speedMaxedOut = false;
 
     Vector2 moveVec;
     Vector3 initialMantlePos;
     Vector3 pointB;
     Vector3 pointC;
-    Vector3 storedVelocity = Vector3.zero;
-    
+    Vector3 storedDirection = Vector3.zero;
+
+    #endregion Global Variables
+
+    #region StartUp Functions
     private void Awake()
     {
         controlSystem = new ControlLayout();
         controlSystem.PlayerControls.Movement.performed += ctx => moveVec = ctx.ReadValue<Vector2>();
         controlSystem.PlayerControls.Movement.canceled += ctx => moveVec = Vector2.zero;
         controlSystem.PlayerControls.Jump.performed += ctx => jumpInput = true;
+        controlSystem.PlayerControls.Sprint.performed += ctx => SetSprint(true);
+        controlSystem.PlayerControls.Sprint.canceled += ctx => SetSprint(false);
+        controlSystem.PlayerControls.Slide.performed += ctx => UseSlide();
+        maxPlayerSpeed = maxPlayerSpeedNormal;
     }
 
     private void OnEnable()
@@ -64,6 +88,8 @@ public class BasicMovementScript : MonoBehaviour
         AudioRef = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManagerScript>();
     }
 
+    #endregion StartUp Functions
+
     // Update is called once per frame
     void FixedUpdate()
     { 
@@ -78,11 +104,37 @@ public class BasicMovementScript : MonoBehaviour
             case MovementType.Mantle:
                 MantleMovement();
                 break;
+            case MovementType.Slide:
+                SlideMovement();
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if (sprinting)
+        {
+            StaminaBar.fillAmount -= staminaDecreaseRate;
+            if (StaminaBar.fillAmount <= 0f) 
+            {
+                SetSprint(false);
+            }
+        }
+        else 
+        {
+            staminaCDTimer += Time.deltaTime;
+            if (staminaCDTimer >= staminaRecoveryCooldown) 
+            {
+                StaminaBar.fillAmount += staminaIncreaseRate;
+                if (StaminaBar.fillAmount >= 1f) 
+                {
+                    StaminaBar.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
     #region Movement Functions
-
     private void MantleMovement() 
     {
         //Add to timer
@@ -119,6 +171,23 @@ public class BasicMovementScript : MonoBehaviour
         playerController.Move(UnadjustedSpeed);
     }
 
+    private void SlideMovement() 
+    {
+        slideTimer += Time.deltaTime;
+
+        storedDirection = storedDirection.normalized * maxPlayerSpeedSlide;
+
+        playerController.Move(storedDirection);
+
+        if (slideTimer >= slideTime) 
+        {
+            SetMovementType(MovementType.Regular);
+            slideTimer = 0f;
+            playerController.height = storedPCHeight;
+            gameObject.transform.rotation = Quaternion.Euler(0f, gameObject.transform.rotation.eulerAngles.y, gameObject.transform.rotation.eulerAngles.z);
+        }
+    }
+
     private void RegularMovement() 
     {
         float HInput = moveVec.x;
@@ -150,7 +219,9 @@ public class BasicMovementScript : MonoBehaviour
         }
         else 
         {
-            storedVelocity = Vector3.zero;
+            storedDirection = Vector3.zero;
+            internalAccelerationFactor = 0.1f;
+            speedMaxedOut = false;
         }
 
         //Jump controls
@@ -177,43 +248,36 @@ public class BasicMovementScript : MonoBehaviour
                 jumpInput = false;
             }
         }
-        //Maintain y velocity from last frame but add gravity every frame to it
+        //Gravity calc
         ySpeedHolder += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
 
         //since camera dir is reset every frame we make it equal to our velocity
         //cameraDir.y = ySpeedHolder;
 
-        Vector3 newForce = playerAcceleration * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
+        //Increase speed based on our acceleration each frame
+        internalAccelerationFactor += playerAcceleration;
+
+        //Create our movement based on cameraDir
+        storedDirection = internalAccelerationFactor * speedModifier * Time.deltaTime * playerFrozen * cameraDir;
 
         //We want our magn and direction calculations to not include our y
-        storedVelocity.y = 0f;
-
-        //Determine direction of new velocity   
-        if (Vector3.Dot(storedVelocity.normalized, newForce.normalized) < 0.25f)
-        {
-            //Overwrite velocity as its in the opposite direction (this is my attempt to not have slidding feeling)
-            Debug.Log("Overriding");
-            storedVelocity = newForce;
-        }
-        else 
-        {
-            //Apply acceleration
-            Debug.Log("Adding");
-            storedVelocity += newForce;
-        }   
+        storedDirection.y = 0f;
 
         //Cap out velocity
-        if (storedVelocity.magnitude > maxPlayerSpeed) 
+        if (storedDirection.magnitude > maxPlayerSpeed) 
         {
-            storedVelocity = storedVelocity.normalized * maxPlayerSpeed;
+            storedDirection = storedDirection.normalized * maxPlayerSpeed;
+            speedMaxedOut = true;
         }
 
-        storedVelocity.y = ySpeedHolder;
+        storedDirection.y = ySpeedHolder;
+
         //apply velocity to the player
-        playerController.Move(storedVelocity);
+        playerController.Move(storedDirection);
     }
     #endregion Movement Functions
 
+    #region Helper Functions
     private Vector3 Vector3Multiply(Vector3 lhs, Vector3 rhs) 
     {
         Vector3 newVec = Vector3.zero;
@@ -255,7 +319,7 @@ public class BasicMovementScript : MonoBehaviour
         PushPullRef = obj;
     }
 
-    //For things that cant be done with a timer
+    //For things that dont want to be done with a timer
     public void AdjustSpeedModifier(float change)
     {
         speedModifier += change;
@@ -272,6 +336,41 @@ public class BasicMovementScript : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         speedModifier -= change;
+    }
+
+    public void SetSprint(bool val) 
+    {
+        if (val)
+        {
+            StaminaBar.gameObject.SetActive(true);
+            maxPlayerSpeed = maxPlayerSpeedSprinting;
+            staminaCDTimer = 0f;
+            
+        }
+        else 
+        {
+            //StaminaBar.gameObject.SetActive(false);
+            maxPlayerSpeed = maxPlayerSpeedNormal;
+        }
+        sprinting = val;
+        
+    }
+
+    public void UseSlide() 
+    {
+        if (speedMaxedOut) 
+        {
+            //Goofy aaaaa slide
+            gameObject.transform.rotation = Quaternion.Euler(-90f, gameObject.transform.rotation.eulerAngles.y, gameObject.transform.rotation.eulerAngles.z);
+
+            SetMovementType(MovementType.Slide);
+
+            speedMaxedOut = false;
+
+            storedPCHeight = playerController.height;
+
+            playerController.height = 0f;
+        }   
     }
 
     //Freezes the player by zeroing out the force we add to them see the above line of code
@@ -296,4 +395,6 @@ public class BasicMovementScript : MonoBehaviour
     {
         ySpeedHolder = 0f;
     }
+
+    #endregion Helper Functions
 }
