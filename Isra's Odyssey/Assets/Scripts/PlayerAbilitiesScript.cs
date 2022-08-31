@@ -103,7 +103,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
             }
         }
         //Light beam ability
-        lightBeamAbility();
+        lightBeamRayCast();
     }
 
     void Update()
@@ -445,7 +445,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
     }
     #endregion
     //Handle light beam interactions
-    void lightBeamAbility() 
+    void lightBeamRayCast() 
     {
         //if the light beam is active
         if (LightBeam.activeSelf)
