@@ -258,6 +258,24 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flare"",
+                    ""type"": ""Button"",
+                    ""id"": ""289b003f-8aee-4ce1-8257-9b94967b10be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shroud"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fcfe4d1-091f-4c1c-b424-bd1fc9a6b3d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -308,11 +326,33 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7315dfd6-757e-493d-9a8f-0983f51a2c80"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Push/Pull"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb13404d-9c0a-4431-be04-e2bd0f8a0d5b"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flare"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84589a39-f799-4620-b8b4-02279f2d7868"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shroud"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -334,6 +374,8 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         m_PlayerAbilities_CancelTeleport = m_PlayerAbilities.FindAction("CancelTeleport", throwIfNotFound: true);
         m_PlayerAbilities_LightMode = m_PlayerAbilities.FindAction("LightMode", throwIfNotFound: true);
         m_PlayerAbilities_PushPull = m_PlayerAbilities.FindAction("Push/Pull", throwIfNotFound: true);
+        m_PlayerAbilities_Flare = m_PlayerAbilities.FindAction("Flare", throwIfNotFound: true);
+        m_PlayerAbilities_Shroud = m_PlayerAbilities.FindAction("Shroud", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -455,6 +497,8 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAbilities_CancelTeleport;
     private readonly InputAction m_PlayerAbilities_LightMode;
     private readonly InputAction m_PlayerAbilities_PushPull;
+    private readonly InputAction m_PlayerAbilities_Flare;
+    private readonly InputAction m_PlayerAbilities_Shroud;
     public struct PlayerAbilitiesActions
     {
         private @ControlLayout m_Wrapper;
@@ -464,6 +508,8 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         public InputAction @CancelTeleport => m_Wrapper.m_PlayerAbilities_CancelTeleport;
         public InputAction @LightMode => m_Wrapper.m_PlayerAbilities_LightMode;
         public InputAction @PushPull => m_Wrapper.m_PlayerAbilities_PushPull;
+        public InputAction @Flare => m_Wrapper.m_PlayerAbilities_Flare;
+        public InputAction @Shroud => m_Wrapper.m_PlayerAbilities_Shroud;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -488,6 +534,12 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @PushPull.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
                 @PushPull.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
                 @PushPull.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
+                @Flare.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
+                @Flare.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
+                @Flare.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
+                @Shroud.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
+                @Shroud.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
+                @Shroud.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
             }
             m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface = instance;
             if (instance != null)
@@ -507,6 +559,12 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @PushPull.started += instance.OnPushPull;
                 @PushPull.performed += instance.OnPushPull;
                 @PushPull.canceled += instance.OnPushPull;
+                @Flare.started += instance.OnFlare;
+                @Flare.performed += instance.OnFlare;
+                @Flare.canceled += instance.OnFlare;
+                @Shroud.started += instance.OnShroud;
+                @Shroud.performed += instance.OnShroud;
+                @Shroud.canceled += instance.OnShroud;
             }
         }
     }
@@ -525,5 +583,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         void OnCancelTeleport(InputAction.CallbackContext context);
         void OnLightMode(InputAction.CallbackContext context);
         void OnPushPull(InputAction.CallbackContext context);
+        void OnFlare(InputAction.CallbackContext context);
+        void OnShroud(InputAction.CallbackContext context);
     }
 }

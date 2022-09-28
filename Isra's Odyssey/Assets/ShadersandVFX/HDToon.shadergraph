@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "3e54c952ae6c413fa433306b8ed71c46",
     "m_Properties": [
@@ -95,6 +95,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "cfb30dfdde004322951bad1af41aa9ee"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "4b57bcfd51fa998cb152d80707b342c5"
@@ -2155,10 +2161,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -2449,7 +2456,9 @@
         1153956493,
         18207201,
         -1417615678
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -2596,7 +2605,9 @@
         1153956493,
         18207201,
         -1417615678
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -2746,6 +2757,8 @@
     "m_DefaultReferenceName": "NDLightDirection_3",
     "m_OverrideReferenceName": "_NDLightDirection3",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3083,6 +3096,8 @@
     "m_DefaultReferenceName": "NDLightIntensity_3",
     "m_OverrideReferenceName": "_NDLightIntensity3",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3785,6 +3800,8 @@
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "_ToonLightIntensity",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4046,6 +4063,8 @@
     "m_DefaultReferenceName": "Texture2D_AFD13AF9",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4054,6 +4073,8 @@
         "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -4500,6 +4521,8 @@
     "m_DefaultReferenceName": "NDLightDirection_2",
     "m_OverrideReferenceName": "_NDLightDirection2",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4585,6 +4608,8 @@
     "m_DefaultReferenceName": "Texture2D_40BD0406",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4593,6 +4618,8 @@
         "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -4627,7 +4654,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 0
+    "m_Space": 0,
+    "m_PositionSource": 0
 }
 
 {
@@ -4890,7 +4918,9 @@
         1153956493,
         18207201,
         -1417615678
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -5530,6 +5560,8 @@
     "m_DefaultReferenceName": "Vector1_B62F4D58",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -6390,8 +6422,16 @@
     "m_SupportLodCrossFade": false,
     "m_DoubleSidedMode": 0,
     "m_DOTSInstancing": false,
-    "m_Version": 0,
-    "m_FirstTimeMigrationExecuted": true,
+    "m_CustomVelocity": false,
+    "m_Tessellation": false,
+    "m_TessellationMode": 0,
+    "m_TessellationFactorMinDistance": 20.0,
+    "m_TessellationFactorMaxDistance": 50.0,
+    "m_TessellationFactorTriangleSize": 100.0,
+    "m_TessellationShapeFactor": 0.75,
+    "m_TessellationBackFaceCullEpsilon": -0.25,
+    "m_TessellationMaxDisplacement": 0.009999999776482582,
+    "m_Version": 1,
     "inspectorFoldoutMask": 9
 }
 
@@ -6564,6 +6604,8 @@
     "m_DefaultReferenceName": "NDLightColor_4",
     "m_OverrideReferenceName": "_NDLightColor4",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -6574,6 +6616,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -6813,7 +6856,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -6948,7 +6992,9 @@
         1153956493,
         18207201,
         -1417615678
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -7014,6 +7060,8 @@
     "m_DefaultReferenceName": "Vector1_9FF40171",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -7187,6 +7235,8 @@
     "m_DefaultReferenceName": "Texture2D_B1F02F4D",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -7195,6 +7245,8 @@
         "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -8443,6 +8495,8 @@
     "m_DefaultReferenceName": "Color_7657C1FD",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -8453,6 +8507,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -8692,6 +8747,8 @@
     "m_DefaultReferenceName": "NDLightColor_2",
     "m_OverrideReferenceName": "_NDLightColor2",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -8702,6 +8759,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -8987,6 +9045,8 @@
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "_ToonLightColor",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -8997,6 +9057,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -9130,7 +9191,8 @@
             "m_Id": "e3047f1e75f1416daaef5c64863934af"
         }
     ],
-    "m_CustomEditorGUI": ""
+    "m_CustomEditorGUI": "",
+    "m_SupportVFX": false
 }
 
 {
@@ -9220,6 +9282,8 @@
     "m_DefaultReferenceName": "NDLightIntensity_4",
     "m_OverrideReferenceName": "_NDLightIntensity4",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -9562,7 +9626,9 @@
         1153956493,
         18207201,
         -1417615678
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -9712,6 +9778,8 @@
     "m_DefaultReferenceName": "OutlineColor",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -9722,6 +9790,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -9738,6 +9807,8 @@
     "m_DefaultReferenceName": "Vector1_54B89D7E",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10276,6 +10347,8 @@
     "m_DefaultReferenceName": "Color_76F972A0",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10286,6 +10359,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -10537,7 +10611,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -11152,7 +11227,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 0
+    "m_Space": 0,
+    "m_PositionSource": 0
 }
 
 {
@@ -11247,6 +11323,8 @@
     "m_DefaultReferenceName": "NDLightIntensity_2",
     "m_OverrideReferenceName": "_NDLightIntensity2",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11983,6 +12061,8 @@
     "m_DefaultReferenceName": "NDLightIntensity_1",
     "m_OverrideReferenceName": "_NDLightIntensity1",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -12354,6 +12434,105 @@
     "m_Property": {
         "m_Id": "3d5635dbd80520809056506d013c1294"
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "cfb30dfdde004322951bad1af41aa9ee",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "eb1ed40fde9abe85a27e033565d7f10d"
+        },
+        {
+            "m_Id": "21f46457a9cdaa8a919d278b63b6f4fb"
+        },
+        {
+            "m_Id": "a0f6882c1eb4448480760e6657c84d7a"
+        },
+        {
+            "m_Id": "603ff73241875981ace3de26ecd52630"
+        },
+        {
+            "m_Id": "f474b3efc206de8da5b29f745cae9d99"
+        },
+        {
+            "m_Id": "3d5635dbd80520809056506d013c1294"
+        },
+        {
+            "m_Id": "daf31b39156069868095a8701cc1a45e"
+        },
+        {
+            "m_Id": "ee49bd38b7c63c8fb98bc07dc05c7c7a"
+        },
+        {
+            "m_Id": "e4b34b546400e78cbca049c212069387"
+        },
+        {
+            "m_Id": "2a4ead9cc6ee4983928ebb397f452a62"
+        },
+        {
+            "m_Id": "94e7e914fc983189a0fa791699dfc0d6"
+        },
+        {
+            "m_Id": "79cb7e9b0ac961899affddd7124e0a41"
+        },
+        {
+            "m_Id": "5cd842fda4ffd482a696778f6bd57a24"
+        },
+        {
+            "m_Id": "1cc67f374c8df685a655af7cc245bef2"
+        },
+        {
+            "m_Id": "e87224e6dc634b8f82a5d580617c7519"
+        },
+        {
+            "m_Id": "859208b66f274d8ea0384483c3d59586"
+        },
+        {
+            "m_Id": "ed4256a3bc4a4c9e9c6d9f44cebc4cfa"
+        },
+        {
+            "m_Id": "92d110149a5246f194c11aa168081236"
+        },
+        {
+            "m_Id": "c969137acfac445db4ccccf25590b429"
+        },
+        {
+            "m_Id": "f286babc954344f59f4d7bc416fdd9b2"
+        },
+        {
+            "m_Id": "ee1343e0f05a4a2dbaea2288de3e929d"
+        },
+        {
+            "m_Id": "bc8766da8ffc4c1babaa46a3a8aaf451"
+        },
+        {
+            "m_Id": "804cf4fa25a0475ba1fb736f39cdd311"
+        },
+        {
+            "m_Id": "2893a12f8a0046a8823ece4d7f112b9e"
+        },
+        {
+            "m_Id": "0fc353ce170f44fca58de85b516842f9"
+        },
+        {
+            "m_Id": "ea3073e6f8334c6dbc69bf9d799eb693"
+        },
+        {
+            "m_Id": "08c8eef07de84dbf9fb9cf6de13df13f"
+        },
+        {
+            "m_Id": "897eca41e0264457bcb7e274605ab8ff"
+        },
+        {
+            "m_Id": "58e95ad00a01499d8d84e2797d024858"
+        },
+        {
+            "m_Id": "f577514f3c934d7f88840f0529cba99f"
+        }
+    ]
 }
 
 {
@@ -12730,6 +12909,8 @@
     "m_DefaultReferenceName": "Vector1_8AFDFB0C",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13055,8 +13236,16 @@
     "m_SupportLodCrossFade": false,
     "m_DoubleSidedMode": 0,
     "m_DOTSInstancing": false,
+    "m_CustomVelocity": false,
+    "m_Tessellation": false,
+    "m_TessellationMode": 0,
+    "m_TessellationFactorMinDistance": 20.0,
+    "m_TessellationFactorMaxDistance": 50.0,
+    "m_TessellationFactorTriangleSize": 100.0,
+    "m_TessellationShapeFactor": 0.75,
+    "m_TessellationBackFaceCullEpsilon": -0.25,
+    "m_TessellationMaxDisplacement": 0.009999999776482582,
     "m_Version": 0,
-    "m_FirstTimeMigrationExecuted": false,
     "inspectorFoldoutMask": 0
 }
 
@@ -13114,6 +13303,8 @@
     "m_DefaultReferenceName": "Color_B0CDD922",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13124,6 +13315,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -13188,6 +13380,7 @@
     "m_TransparentWritesMotionVec": false,
     "m_AlphaToMask": false,
     "m_DepthOffset": false,
+    "m_ConservativeDepthOffset": false,
     "m_TransparencyFog": true,
     "m_AlphaTestShadow": false,
     "m_BackThenFrontRendering": false,
@@ -13207,6 +13400,7 @@
     "m_TransparentWritesMotionVec": false,
     "m_AlphaToMask": false,
     "m_DepthOffset": false,
+    "m_ConservativeDepthOffset": false,
     "m_TransparencyFog": true,
     "m_AlphaTestShadow": false,
     "m_BackThenFrontRendering": false,
@@ -13316,6 +13510,8 @@
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "_ToonLightDirection",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13356,6 +13552,8 @@
     "m_DefaultReferenceName": "NDLightColor_3",
     "m_OverrideReferenceName": "_NDLightColor3",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13366,6 +13564,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -13417,6 +13616,8 @@
     "m_DefaultReferenceName": "Color_62F24D98",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13427,6 +13628,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -13468,6 +13670,8 @@
     "m_DefaultReferenceName": "OutlineScale",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13493,6 +13697,8 @@
     "m_DefaultReferenceName": "NDLightDirection_1",
     "m_OverrideReferenceName": "_NDLightDirection1",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13543,6 +13749,8 @@
     "m_DefaultReferenceName": "Vector1_BC8BD2CC",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13654,6 +13862,8 @@
     "m_DefaultReferenceName": "NDLightColor_1",
     "m_OverrideReferenceName": "_NDLightColor1",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13664,6 +13874,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -13762,6 +13973,8 @@
     "m_DefaultReferenceName": "Vector1_45446F90",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13837,6 +14050,8 @@
     "m_DefaultReferenceName": "NDLightDirection_4",
     "m_OverrideReferenceName": "_NDLightDirection4",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,

@@ -15,20 +15,27 @@ public class PlayerAbilitiesScript : MonoBehaviour
     public GameObject LightBeam;
     public GameObject IndicatorPrefab;
     public GameObject faceCube;
+    public GameObject FlarePrefab;
+    public GameObject tunicRef;
 
     public float detectionRadius;
     public float beamDuration;
     public float teleportDistance;
+    public float flareThrowStrength;
 
     public Material darkMat;
     public Material lightMat;
+    public Material shroudMat;
+    public Material toonMat;
 
 
     bool LightMode = false;
+    bool ShroudMode = false;
     bool beaming = false;
     bool teleportMarkerActive = false;
     bool executeTeleport = false;
     bool pushPullActive = false;
+    bool canActivatePushPull = false;
 
     GameObject PushPullRef;
     GameObject closestLight;
@@ -59,6 +66,8 @@ public class PlayerAbilitiesScript : MonoBehaviour
         controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
         controlSystem.PlayerAbilities.LightMode.performed += ctx => ActivateLightMode();
         controlSystem.PlayerAbilities.PushPull.performed += ctx => PushPullMode();
+        controlSystem.PlayerAbilities.Flare.performed += ctx => ThrowFlareAbility();
+        controlSystem.PlayerAbilities.Shroud.performed += ctx => SetShroudMode(!ShroudMode);
     }
 
     private void OnEnable()
@@ -114,14 +123,27 @@ public class PlayerAbilitiesScript : MonoBehaviour
         CheatCodes();
     }
 
-    public void SetPushPullRef(GameObject obj) 
+    public void SetPushPullRef(GameObject obj)
     {
         PushPullRef = obj;
+        if (obj == null)
+        {
+            canActivatePushPull = false;
+        }
+        else 
+        {
+            canActivatePushPull = true;
+        }
         Debug.Log("Set Ref to: " + obj);
     }
 
     private void PushPullMode() 
     {
+        if (!canActivatePushPull) 
+        {
+            return;
+        }
+
         if (pushPullActive)
         {
             pushPullActive = false;
@@ -148,6 +170,37 @@ public class PlayerAbilitiesScript : MonoBehaviour
 
             movementRef.SetCharacterController(true);
         }     
+    }
+
+    private void ThrowFlareAbility() 
+    {
+        if (true) 
+        {
+            Vector3 spawnLoc = gameObject.transform.position + Camera.main.transform.forward;
+            spawnLoc.y += movementRef.playerController.height;
+            GameObject temp = Instantiate(FlarePrefab, spawnLoc, Quaternion.identity);
+
+            temp.GetComponent<Rigidbody>().AddForce((Camera.main.transform.forward + (Camera.main.transform.up * 0.5f)).normalized * flareThrowStrength,ForceMode.Impulse);
+        }       
+    }
+
+    private void SetShroudMode(bool set) 
+    {
+        Debug.LogWarning("Shroud set to: " + set);
+        ShroudMode = set;
+        if (set)
+        {
+            tunicRef.GetComponent<MeshRenderer>().material = shroudMat;
+        }
+        else 
+        {
+            tunicRef.GetComponent<MeshRenderer>().material = toonMat;
+        }
+    }
+
+    public bool GetShroudMode() 
+    {
+        return ShroudMode;
     }
 
     private void CheatCodes() 
