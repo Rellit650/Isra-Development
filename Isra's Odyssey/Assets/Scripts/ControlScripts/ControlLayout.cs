@@ -242,15 +242,6 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LightMode"",
-                    ""type"": ""Button"",
-                    ""id"": ""e4aae941-197a-49b3-84c5-460faf0b5c34"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Push/Pull"",
                     ""type"": ""Button"",
                     ""id"": ""0bc5117b-1f84-42b6-b5bd-58c8531b3130"",
@@ -269,9 +260,18 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shroud"",
+                    ""name"": ""Swap"",
                     ""type"": ""Button"",
                     ""id"": ""3fcfe4d1-091f-4c1c-b424-bd1fc9a6b3d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""958f4bbf-b4c5-462f-96bc-27f9858592d2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -293,7 +293,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8d1ed4c4-2ff6-453b-99b5-353b60cc1a21"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -309,17 +309,6 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CancelTeleport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""24b284d0-b3ca-4969-9288-c1612b7fd0dc"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LightMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -348,11 +337,22 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""84589a39-f799-4620-b8b4-02279f2d7868"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shroud"",
+                    ""action"": ""Swap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ad884fa-ef06-4905-b29d-edcef4c0d811"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -372,10 +372,10 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         m_PlayerAbilities_CastLightBeam = m_PlayerAbilities.FindAction("CastLightBeam", throwIfNotFound: true);
         m_PlayerAbilities_Teleport = m_PlayerAbilities.FindAction("Teleport", throwIfNotFound: true);
         m_PlayerAbilities_CancelTeleport = m_PlayerAbilities.FindAction("CancelTeleport", throwIfNotFound: true);
-        m_PlayerAbilities_LightMode = m_PlayerAbilities.FindAction("LightMode", throwIfNotFound: true);
         m_PlayerAbilities_PushPull = m_PlayerAbilities.FindAction("Push/Pull", throwIfNotFound: true);
         m_PlayerAbilities_Flare = m_PlayerAbilities.FindAction("Flare", throwIfNotFound: true);
-        m_PlayerAbilities_Shroud = m_PlayerAbilities.FindAction("Shroud", throwIfNotFound: true);
+        m_PlayerAbilities_Swap = m_PlayerAbilities.FindAction("Swap", throwIfNotFound: true);
+        m_PlayerAbilities_Action = m_PlayerAbilities.FindAction("Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -495,10 +495,10 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAbilities_CastLightBeam;
     private readonly InputAction m_PlayerAbilities_Teleport;
     private readonly InputAction m_PlayerAbilities_CancelTeleport;
-    private readonly InputAction m_PlayerAbilities_LightMode;
     private readonly InputAction m_PlayerAbilities_PushPull;
     private readonly InputAction m_PlayerAbilities_Flare;
-    private readonly InputAction m_PlayerAbilities_Shroud;
+    private readonly InputAction m_PlayerAbilities_Swap;
+    private readonly InputAction m_PlayerAbilities_Action;
     public struct PlayerAbilitiesActions
     {
         private @ControlLayout m_Wrapper;
@@ -506,10 +506,10 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         public InputAction @CastLightBeam => m_Wrapper.m_PlayerAbilities_CastLightBeam;
         public InputAction @Teleport => m_Wrapper.m_PlayerAbilities_Teleport;
         public InputAction @CancelTeleport => m_Wrapper.m_PlayerAbilities_CancelTeleport;
-        public InputAction @LightMode => m_Wrapper.m_PlayerAbilities_LightMode;
         public InputAction @PushPull => m_Wrapper.m_PlayerAbilities_PushPull;
         public InputAction @Flare => m_Wrapper.m_PlayerAbilities_Flare;
-        public InputAction @Shroud => m_Wrapper.m_PlayerAbilities_Shroud;
+        public InputAction @Swap => m_Wrapper.m_PlayerAbilities_Swap;
+        public InputAction @Action => m_Wrapper.m_PlayerAbilities_Action;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -528,18 +528,18 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @CancelTeleport.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
                 @CancelTeleport.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
                 @CancelTeleport.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
-                @LightMode.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
-                @LightMode.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
-                @LightMode.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnLightMode;
                 @PushPull.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
                 @PushPull.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
                 @PushPull.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
                 @Flare.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
                 @Flare.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
                 @Flare.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
-                @Shroud.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
-                @Shroud.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
-                @Shroud.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnShroud;
+                @Swap.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
+                @Swap.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
+                @Swap.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
+                @Action.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnAction;
             }
             m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface = instance;
             if (instance != null)
@@ -553,18 +553,18 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @CancelTeleport.started += instance.OnCancelTeleport;
                 @CancelTeleport.performed += instance.OnCancelTeleport;
                 @CancelTeleport.canceled += instance.OnCancelTeleport;
-                @LightMode.started += instance.OnLightMode;
-                @LightMode.performed += instance.OnLightMode;
-                @LightMode.canceled += instance.OnLightMode;
                 @PushPull.started += instance.OnPushPull;
                 @PushPull.performed += instance.OnPushPull;
                 @PushPull.canceled += instance.OnPushPull;
                 @Flare.started += instance.OnFlare;
                 @Flare.performed += instance.OnFlare;
                 @Flare.canceled += instance.OnFlare;
-                @Shroud.started += instance.OnShroud;
-                @Shroud.performed += instance.OnShroud;
-                @Shroud.canceled += instance.OnShroud;
+                @Swap.started += instance.OnSwap;
+                @Swap.performed += instance.OnSwap;
+                @Swap.canceled += instance.OnSwap;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
             }
         }
     }
@@ -581,9 +581,9 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         void OnCastLightBeam(InputAction.CallbackContext context);
         void OnTeleport(InputAction.CallbackContext context);
         void OnCancelTeleport(InputAction.CallbackContext context);
-        void OnLightMode(InputAction.CallbackContext context);
         void OnPushPull(InputAction.CallbackContext context);
         void OnFlare(InputAction.CallbackContext context);
-        void OnShroud(InputAction.CallbackContext context);
+        void OnSwap(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
 }
