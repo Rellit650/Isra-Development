@@ -9,6 +9,15 @@ using UnityEngine.XR;
 
 public class PlayerAbilitiesScript : MonoBehaviour
 {
+    public enum ActionType 
+    {
+        Teleport,
+        LightBeam,
+        PushPull,
+        Flare,
+        Shroud
+    }
+
     public GameObject[] cheatPlatforms;
     public GameObject[] Lights;
     public GameObject swordRef;
@@ -27,8 +36,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
     public Material lightMat;
     public Material shroudMat;
     public Material toonMat;
-
-
+    
     bool LightMode = false;
     bool ShroudMode = false;
     bool beaming = false;
@@ -43,10 +51,13 @@ public class PlayerAbilitiesScript : MonoBehaviour
     GameObject indactorRef;
     [SerializeField]GameObject AimingCamera;
     [SerializeField]GameObject PlayerCamera;
-    
+
+    ActionType currentAction;
     RaycastHit hit;
     int TestMask = 1 << 8;
     int puzzleMask = 1 << 10;
+    int lightActionCounter = 0;
+    int darkActionCounter = 0;
 
     BasicMovementScript movementRef; 
     AudioManagerScript AudioRef;   
@@ -62,12 +73,12 @@ public class PlayerAbilitiesScript : MonoBehaviour
         controlSystem = new ControlLayout();
         controlSystem.PlayerAbilities.CastLightBeam.performed += ctx => CastLightBeam(true);
         controlSystem.PlayerAbilities.CastLightBeam.canceled += ctx => CastLightBeam(false);
-        controlSystem.PlayerAbilities.Teleport.performed += ctx => HandleTeleportInput();
+        controlSystem.PlayerAbilities.Teleport.performed += ctx => currentAction = ActionType.Teleport;
         controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
-        controlSystem.PlayerAbilities.LightMode.performed += ctx => ActivateLightMode();
-        controlSystem.PlayerAbilities.PushPull.performed += ctx => PushPullMode();
-        controlSystem.PlayerAbilities.Flare.performed += ctx => ThrowFlareAbility();
-        controlSystem.PlayerAbilities.Shroud.performed += ctx => SetShroudMode(!ShroudMode);
+        controlSystem.PlayerAbilities.PushPull.performed += ctx => currentAction = ActionType.PushPull;
+        controlSystem.PlayerAbilities.Flare.performed += ctx => currentAction = ActionType.Flare;
+        controlSystem.PlayerAbilities.Swap.performed += ctx => SwapAction(true);
+        controlSystem.PlayerAbilities.Action.performed += ctx => HandleAction();
     }
 
     private void OnEnable()
@@ -122,6 +133,100 @@ public class PlayerAbilitiesScript : MonoBehaviour
         //self explanatory
         CheatCodes();
     }
+
+    private void HandleAction() 
+    {
+        switch (currentAction) 
+        {
+            case ActionType.Teleport:
+                {
+                    Debug.Log("Teleport Action");
+                    HandleTeleportInput();
+                    break;
+                }
+            case ActionType.LightBeam:
+                {
+                    Debug.Log("Light Beam Action");
+                    ActivateLightMode();
+                    break;
+                }
+            case ActionType.PushPull:
+                {
+                    Debug.Log("Push Pull Action");
+                    PushPullMode();
+                    break;
+                }
+            case ActionType.Flare:
+                {
+                    Debug.Log("Flare Action");
+                    ThrowFlareAbility();
+                    break;
+                }
+            case ActionType.Shroud:
+                {
+                    Debug.Log("Shroud Action");
+                    SetShroudMode(!ShroudMode);
+                    break;
+                }
+        }
+    }
+
+    private void SwapAction(bool increment) 
+    {
+        if (LightMode)
+        {
+            switch (lightActionCounter)
+            {
+                case 0:
+                    {
+                        Debug.Log("Swapped to Light Beam");
+                        currentAction = ActionType.LightBeam;
+                        break;
+                    }
+                case 1:
+                    {
+                        Debug.Log("Swapped to Flare");
+                        currentAction = ActionType.Flare;
+                        break;
+                    }
+            }
+            if (increment) 
+            {
+                lightActionCounter++;
+                if (lightActionCounter > 1) 
+                {
+                    lightActionCounter = 0;
+                }
+            }        
+        }
+        else 
+        {
+            switch (darkActionCounter) 
+            {
+                case 0: 
+                    {
+                        Debug.Log("Swapped to Teleport");
+                        currentAction = ActionType.Teleport;
+                        break;
+                    }
+                case 1:
+                    {
+                        Debug.Log("Swapped to Shroud");
+                        currentAction = ActionType.Shroud;
+                        break;
+                    }
+            }
+            if (increment)
+            {
+                darkActionCounter++;
+                if (darkActionCounter > 1)
+                {
+                    darkActionCounter = 0;
+                }
+            }
+        }
+    }
+
 
     public void SetPushPullRef(GameObject obj)
     {
@@ -313,6 +418,9 @@ public class PlayerAbilitiesScript : MonoBehaviour
                         //If true then activate light mode
                         LightMode = true;
 
+                        //Make sure we are using the correct ability set
+                        SwapAction(false);
+
                         //This is the closest light store it for latter when determining if we are still in the light
                         closestLight = i;
 
@@ -341,6 +449,9 @@ public class PlayerAbilitiesScript : MonoBehaviour
                 swordRef.GetComponent<MeshRenderer>().material = darkMat;
                 LightMode = false;
 
+                //Make sure we are using the correct ability set
+                SwapAction(false);
+
                 //We want to make sure we only change the music if we arent entering another zone of light
                 if (!checkOtherLights()) 
                 {
@@ -359,6 +470,9 @@ public class PlayerAbilitiesScript : MonoBehaviour
                     swordRef.GetComponent<MeshRenderer>().material = darkMat;
                     LightMode = false;
 
+                    //Make sure we are using the correct ability set
+                    SwapAction(false);
+
                     //We want to make sure we only change the music if we arent entering another zone of light
                     if (!checkOtherLights())
                     {
@@ -368,7 +482,6 @@ public class PlayerAbilitiesScript : MonoBehaviour
                 }
             }
         }
-
     }
 
     bool checkOtherLights() 
@@ -409,6 +522,10 @@ public class PlayerAbilitiesScript : MonoBehaviour
     #region "Light Abilites"
     void ActivateLightMode() 
     {
+        if (!LightMode) 
+        {
+            return;
+        }
         if (beaming)
         {
             //Beam remains until we press L again
@@ -535,6 +652,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         RaycastHit collision;
         Vector3 destination = transform.position + transform.forward * teleportDistance;
         Vector3 dir = (transform.position - destination).normalized;
+        movementRef.playerController.enabled = false;
         if (Physics.Raycast(transform.position, -dir, out collision, teleportDistance))
         {
             destination = collision.point + collision.normal * 1.5f;
@@ -547,6 +665,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
         AudioRef.playAudio(5);
         teleportMarkerActive = false;
         executeTeleport = false;
+        movementRef.playerController.enabled = true;
     }
 
     //Update teleport marker location whenever we move the camera

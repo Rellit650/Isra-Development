@@ -220,15 +220,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LightMode",
-                    "type": "Button",
-                    "id": "e4aae941-197a-49b3-84c5-460faf0b5c34",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Push/Pull",
                     "type": "Button",
                     "id": "0bc5117b-1f84-42b6-b5bd-58c8531b3130",
@@ -247,9 +238,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shroud",
+                    "name": "Swap",
                     "type": "Button",
                     "id": "3fcfe4d1-091f-4c1c-b424-bd1fc9a6b3d5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Action",
+                    "type": "Button",
+                    "id": "958f4bbf-b4c5-462f-96bc-27f9858592d2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -271,7 +271,7 @@
                 {
                     "name": "",
                     "id": "8d1ed4c4-2ff6-453b-99b5-353b60cc1a21",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -287,17 +287,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "CancelTeleport",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "24b284d0-b3ca-4969-9288-c1612b7fd0dc",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LightMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -326,11 +315,22 @@
                 {
                     "name": "",
                     "id": "84589a39-f799-4620-b8b4-02279f2d7868",
-                    "path": "<Keyboard>/c",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shroud",
+                    "action": "Swap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ad884fa-ef06-4905-b29d-edcef4c0d811",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
