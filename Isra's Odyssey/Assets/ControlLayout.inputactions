@@ -202,36 +202,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Teleport",
-                    "type": "Button",
-                    "id": "a507b76d-b970-4b70-84f0-873c99b7d76a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "CancelTeleport",
                     "type": "Button",
                     "id": "e505b8c7-9d61-47d0-acf7-2c0f84bcc20f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Push/Pull",
-                    "type": "Button",
-                    "id": "0bc5117b-1f84-42b6-b5bd-58c8531b3130",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Flare",
-                    "type": "Button",
-                    "id": "289b003f-8aee-4ce1-8257-9b94967b10be",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -270,45 +243,12 @@
                 },
                 {
                     "name": "",
-                    "id": "8d1ed4c4-2ff6-453b-99b5-353b60cc1a21",
-                    "path": "<Keyboard>/m",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Teleport",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "65ab73b3-8adb-4a56-b047-a5010434c0c1",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "CancelTeleport",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7315dfd6-757e-493d-9a8f-0983f51a2c80",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Push/Pull",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fb13404d-9c0a-4431-be04-e2bd0f8a0d5b",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Flare",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

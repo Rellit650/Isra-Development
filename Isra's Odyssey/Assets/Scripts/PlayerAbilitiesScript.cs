@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using TMPro;
 using UnityEngine.XR;
 
 public class PlayerAbilitiesScript : MonoBehaviour
@@ -52,6 +53,7 @@ public class PlayerAbilitiesScript : MonoBehaviour
     [SerializeField]GameObject AimingCamera;
     [SerializeField]GameObject PlayerCamera;
 
+    [SerializeField] TextMeshProUGUI AbilityText;
     ActionType currentAction;
     RaycastHit hit;
     int TestMask = 1 << 8;
@@ -73,10 +75,10 @@ public class PlayerAbilitiesScript : MonoBehaviour
         controlSystem = new ControlLayout();
         controlSystem.PlayerAbilities.CastLightBeam.performed += ctx => CastLightBeam(true);
         controlSystem.PlayerAbilities.CastLightBeam.canceled += ctx => CastLightBeam(false);
-        controlSystem.PlayerAbilities.Teleport.performed += ctx => currentAction = ActionType.Teleport;
+        //controlSystem.PlayerAbilities.Teleport.performed += ctx => currentAction = ActionType.Teleport;
         controlSystem.PlayerAbilities.CancelTeleport.performed += ctx => CancelTeleportAbility();
-        controlSystem.PlayerAbilities.PushPull.performed += ctx => currentAction = ActionType.PushPull;
-        controlSystem.PlayerAbilities.Flare.performed += ctx => currentAction = ActionType.Flare;
+        //controlSystem.PlayerAbilities.PushPull.performed += ctx => currentAction = ActionType.PushPull;
+        //controlSystem.PlayerAbilities.Flare.performed += ctx => currentAction = ActionType.Flare;
         controlSystem.PlayerAbilities.Swap.performed += ctx => SwapAction(true);
         controlSystem.PlayerAbilities.Action.performed += ctx => HandleAction();
     }
@@ -179,14 +181,16 @@ public class PlayerAbilitiesScript : MonoBehaviour
             {
                 case 0:
                     {
-                        Debug.Log("Swapped to Light Beam");
+                        //Debug.Log("Swapped to Light Beam");
                         currentAction = ActionType.LightBeam;
+                        AbilityText.text = "Ability: LightBeam";
                         break;
                     }
                 case 1:
                     {
-                        Debug.Log("Swapped to Flare");
+                        //Debug.Log("Swapped to Flare");
                         currentAction = ActionType.Flare;
+                        AbilityText.text = "Ability: Flare";
                         break;
                     }
             }
@@ -205,14 +209,16 @@ public class PlayerAbilitiesScript : MonoBehaviour
             {
                 case 0: 
                     {
-                        Debug.Log("Swapped to Teleport");
+                        //Debug.Log("Swapped to Teleport");
                         currentAction = ActionType.Teleport;
+                        AbilityText.text = "Ability: Teleport";
                         break;
                     }
                 case 1:
                     {
-                        Debug.Log("Swapped to Shroud");
+                        //Debug.Log("Swapped to Shroud");
                         currentAction = ActionType.Shroud;
+                        AbilityText.text = "Ability: Shroud";
                         break;
                     }
             }
@@ -639,6 +645,11 @@ public class PlayerAbilitiesScript : MonoBehaviour
                     if (puzzleHit.collider.gameObject.CompareTag("BurnablePlant"))
                     {
                         puzzleHit.collider.gameObject.GetComponent<BurnablePlantScript>().ActivateBurnMat();
+                        return;
+                    }
+                    if (puzzleHit.collider.gameObject.CompareTag("GrowablePlant")) 
+                    {
+                        puzzleHit.collider.gameObject.GetComponent<FlowerGrowthScript>().Grow();
                         return;
                     }
                 }             

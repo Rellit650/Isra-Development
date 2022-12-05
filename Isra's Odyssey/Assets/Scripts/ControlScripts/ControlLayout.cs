@@ -224,36 +224,9 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Teleport"",
-                    ""type"": ""Button"",
-                    ""id"": ""a507b76d-b970-4b70-84f0-873c99b7d76a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""CancelTeleport"",
                     ""type"": ""Button"",
                     ""id"": ""e505b8c7-9d61-47d0-acf7-2c0f84bcc20f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Push/Pull"",
-                    ""type"": ""Button"",
-                    ""id"": ""0bc5117b-1f84-42b6-b5bd-58c8531b3130"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Flare"",
-                    ""type"": ""Button"",
-                    ""id"": ""289b003f-8aee-4ce1-8257-9b94967b10be"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -292,45 +265,12 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8d1ed4c4-2ff6-453b-99b5-353b60cc1a21"",
-                    ""path"": ""<Keyboard>/m"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Teleport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""65ab73b3-8adb-4a56-b047-a5010434c0c1"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CancelTeleport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7315dfd6-757e-493d-9a8f-0983f51a2c80"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Push/Pull"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fb13404d-9c0a-4431-be04-e2bd0f8a0d5b"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Flare"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -370,10 +310,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         // PlayerAbilities
         m_PlayerAbilities = asset.FindActionMap("PlayerAbilities", throwIfNotFound: true);
         m_PlayerAbilities_CastLightBeam = m_PlayerAbilities.FindAction("CastLightBeam", throwIfNotFound: true);
-        m_PlayerAbilities_Teleport = m_PlayerAbilities.FindAction("Teleport", throwIfNotFound: true);
         m_PlayerAbilities_CancelTeleport = m_PlayerAbilities.FindAction("CancelTeleport", throwIfNotFound: true);
-        m_PlayerAbilities_PushPull = m_PlayerAbilities.FindAction("Push/Pull", throwIfNotFound: true);
-        m_PlayerAbilities_Flare = m_PlayerAbilities.FindAction("Flare", throwIfNotFound: true);
         m_PlayerAbilities_Swap = m_PlayerAbilities.FindAction("Swap", throwIfNotFound: true);
         m_PlayerAbilities_Action = m_PlayerAbilities.FindAction("Action", throwIfNotFound: true);
     }
@@ -493,10 +430,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerAbilities;
     private IPlayerAbilitiesActions m_PlayerAbilitiesActionsCallbackInterface;
     private readonly InputAction m_PlayerAbilities_CastLightBeam;
-    private readonly InputAction m_PlayerAbilities_Teleport;
     private readonly InputAction m_PlayerAbilities_CancelTeleport;
-    private readonly InputAction m_PlayerAbilities_PushPull;
-    private readonly InputAction m_PlayerAbilities_Flare;
     private readonly InputAction m_PlayerAbilities_Swap;
     private readonly InputAction m_PlayerAbilities_Action;
     public struct PlayerAbilitiesActions
@@ -504,10 +438,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
         private @ControlLayout m_Wrapper;
         public PlayerAbilitiesActions(@ControlLayout wrapper) { m_Wrapper = wrapper; }
         public InputAction @CastLightBeam => m_Wrapper.m_PlayerAbilities_CastLightBeam;
-        public InputAction @Teleport => m_Wrapper.m_PlayerAbilities_Teleport;
         public InputAction @CancelTeleport => m_Wrapper.m_PlayerAbilities_CancelTeleport;
-        public InputAction @PushPull => m_Wrapper.m_PlayerAbilities_PushPull;
-        public InputAction @Flare => m_Wrapper.m_PlayerAbilities_Flare;
         public InputAction @Swap => m_Wrapper.m_PlayerAbilities_Swap;
         public InputAction @Action => m_Wrapper.m_PlayerAbilities_Action;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
@@ -522,18 +453,9 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @CastLightBeam.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
                 @CastLightBeam.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
                 @CastLightBeam.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCastLightBeam;
-                @Teleport.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
-                @Teleport.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
-                @Teleport.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnTeleport;
                 @CancelTeleport.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
                 @CancelTeleport.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
                 @CancelTeleport.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnCancelTeleport;
-                @PushPull.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
-                @PushPull.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
-                @PushPull.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnPushPull;
-                @Flare.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
-                @Flare.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
-                @Flare.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnFlare;
                 @Swap.started -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
                 @Swap.performed -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
                 @Swap.canceled -= m_Wrapper.m_PlayerAbilitiesActionsCallbackInterface.OnSwap;
@@ -547,18 +469,9 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
                 @CastLightBeam.started += instance.OnCastLightBeam;
                 @CastLightBeam.performed += instance.OnCastLightBeam;
                 @CastLightBeam.canceled += instance.OnCastLightBeam;
-                @Teleport.started += instance.OnTeleport;
-                @Teleport.performed += instance.OnTeleport;
-                @Teleport.canceled += instance.OnTeleport;
                 @CancelTeleport.started += instance.OnCancelTeleport;
                 @CancelTeleport.performed += instance.OnCancelTeleport;
                 @CancelTeleport.canceled += instance.OnCancelTeleport;
-                @PushPull.started += instance.OnPushPull;
-                @PushPull.performed += instance.OnPushPull;
-                @PushPull.canceled += instance.OnPushPull;
-                @Flare.started += instance.OnFlare;
-                @Flare.performed += instance.OnFlare;
-                @Flare.canceled += instance.OnFlare;
                 @Swap.started += instance.OnSwap;
                 @Swap.performed += instance.OnSwap;
                 @Swap.canceled += instance.OnSwap;
@@ -579,10 +492,7 @@ public partial class @ControlLayout : IInputActionCollection2, IDisposable
     public interface IPlayerAbilitiesActions
     {
         void OnCastLightBeam(InputAction.CallbackContext context);
-        void OnTeleport(InputAction.CallbackContext context);
         void OnCancelTeleport(InputAction.CallbackContext context);
-        void OnPushPull(InputAction.CallbackContext context);
-        void OnFlare(InputAction.CallbackContext context);
         void OnSwap(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
     }

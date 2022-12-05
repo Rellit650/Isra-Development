@@ -15,6 +15,7 @@ TagManager:
   - TestTag
   - PushPull
   - Mantle
+  - GrowablePlant
   layers:
   - Default
   - TransparentFX
